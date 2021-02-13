@@ -1,0 +1,50 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    ext.kotlin_version = "1.4.30"
+    /**
+     * 当在境外网络构建时, 例如github actions, 可以不使用阿里云镜像
+     */
+    ext.is_zh_CN_env = (Locale.getDefault().language == "zh" && Locale.getDefault().country == "CN")
+    repositories {
+        if (is_zh_CN_env) {
+            maven { url "https://maven.aliyun.com/repository/public/" }
+            maven { url "https://maven.aliyun.com/repository/google" }
+            maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+            println("buildscript.repositories use aliyun repository")
+        } else {
+            println("buildscript.repositories not use aliyun repository")
+        }
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath "com.android.tools.build:gradle:4.1.2"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        if (is_zh_CN_env) {
+            maven { url "https://maven.aliyun.com/repository/public/" }
+            maven { url "https://maven.aliyun.com/repository/google" }
+            maven { url "https://maven.aliyun.com/repository/gradle-plugin" }
+            println("allprojects.repositories use aliyun repository")
+        } else {
+            println("allprojects.repositories not use aliyun repository")
+        }
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
